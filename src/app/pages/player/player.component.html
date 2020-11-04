@@ -1,0 +1,81 @@
+<div class="container">
+  <mat-toolbar color="primary" class="main-toolbar">
+    <img src="https://rxjs-dev.firebaseapp.com/assets/images/logos/logo.png">
+    <span class="p-title">Audio Player</span>
+    <span class="spacer"></span>
+    <span class="toolbar-btn">GitHub</span>
+  </mat-toolbar>
+
+  <div class="content">
+      <div class="logo">
+        <img src="https://i.pinimg.com/originals/a9/34/90/a934904e06cbbbbc7f9ce7d87e418ebd.jpg">
+        <div class="title">The Beatles</div>
+    </div>
+
+    <mat-list color="primary">
+      <h3 mat-subheader>Songs</h3>
+      <mat-list-item *ngFor="let file of files; let i = index"
+                     (click)="openFile(file, i)"
+                     class="list-item"
+                     [ngClass]="{'playing': currentFile.index === i && (state?.playing || state?.paused)}">
+        <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
+        <h4 mat-line>{{ file.name }}</h4>
+        <h5 mat-line>by {{ file.artist }}</h5>
+        <ng-container *ngIf="currentFile.index === i && !state?.error">
+            <span *ngIf="state?.playing">
+              <mat-icon color="primary">volume_up</mat-icon> Playing
+            </span>
+            <span *ngIf="state?.paused">
+              <mat-icon color="primary">volume_off</mat-icon> Paused
+            </span>
+        </ng-container>
+
+        <h6 *ngIf="currentFile.index === i && state?.error">ERROR</h6>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
+
+  <div class="media-footer">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+         {{ state?.readableCurrentTime }}
+         <mat-slider class="time-slider"
+                     min="0"
+                     [max]="state?.duration" step="1"
+                     [value]="state?.currentTime"
+                     (input)="onSliderChangeEnd($event)"
+                     [disabled]="state?.error || currentFile.index === undefined">
+          </mat-slider>
+         {{ state?.readableDuration }}
+      </mat-toolbar-row>
+
+      <mat-toolbar-row class="media-action-bar">
+        <button  mat-button (click)="setRepeat()">
+          <mat-icon mat-list-icon class="small-mat-icon" [style.color]="(repeat)? '#FF4081': 'white'">repeat</mat-icon>
+        </button>
+
+        <button mat-button [disabled]="isFirstPlaying() || state?.error || currentFile.index === undefined" (click)="previous()">
+          <mat-icon mat-list-icon>skip_previous</mat-icon>
+        </button>
+
+        <button mat-button (click)="play()" [disabled]="state?.error" *ngIf="!state?.playing">
+          <mat-icon mat-list-icon>play_circle_filled</mat-icon>
+        </button>
+
+        <button mat-button (click)="pause()" *ngIf="state?.playing">
+          <mat-icon mat-list-icon>pause</mat-icon>
+        </button>
+
+        <button  mat-button [disabled]="isLastPlaying() || state?.error || currentFile.index === undefined" (click)="next()">
+          <mat-icon mat-list-icon>skip_next</mat-icon>
+        </button>
+
+        <button  mat-button (click)="stop()">
+          <mat-icon mat-list-icon class="small-mat-icon">stop</mat-icon>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+  </div>
+</div>
+
