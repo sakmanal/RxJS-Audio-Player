@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PlayerComponent } from './pages/player/player.component';
+import { ContainerComponent } from './pages/container/container.component';
 
 const routes: Routes = [
-    { path: '', component: PlayerComponent },
+    { path: '', component: ContainerComponent },
     { path: '**', redirectTo: '' }
 ];
 

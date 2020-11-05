@@ -1,0 +1,15 @@
+.main-toolbar {
+  height: 50px;
+  .p-title {
+    margin-left: 10px;
+    padding: 3px;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+  .toolbar-btn {
+    font-size: 16px;
+    margin-right:5px;
+    cursor: pointer;
+  }
+}

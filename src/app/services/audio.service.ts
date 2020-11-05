@@ -13,7 +13,7 @@ export class AudioService {
   audioEvents = [
     'ended', 'error', 'play', 'playing', 'pause', 'timeupdate', 'canplay', 'loadedmetadata', 'loadstart', 'ended'
   ];
-  private state: StreamState = {
+  private streamState: StreamState = {
     playing: false,
     paused: false,
     readableCurrentTime: '',
@@ -23,7 +23,7 @@ export class AudioService {
     canplay: false,
     error: false,
   };
-  private stateChange: BehaviorSubject<StreamState> = new BehaviorSubject(this.state);
+  private streamStateChange: BehaviorSubject<StreamState> = new BehaviorSubject(this.streamState);
 
   private streamObservable(url) {
     return new Observable(observer => {
@@ -44,7 +44,7 @@ export class AudioService {
         this.audioObj.currentTime = 0;
         // remove event listeners
         this.removeEvents(this.audioObj, this.audioEvents, handler);
-        // reset state
+        // reset streamState
         this.resetState();
       };
     });
@@ -79,7 +79,7 @@ export class AudioService {
   stop() {
     this.stop$.next();
     this.resetState();
-    this.stateChange.next(this.state);
+    this.streamStateChange.next(this.streamState);
   }
 
   seekTo(seconds) {
@@ -94,35 +94,35 @@ export class AudioService {
   private updateStateEvents(event: Event): void {
     switch (event.type) {
       case 'canplay':
-        this.state.duration = this.audioObj.duration;
-        this.state.readableDuration = this.formatTime(this.state.duration);
-        this.state.canplay = true;
+        this.streamState.duration = this.audioObj.duration;
+        this.streamState.readableDuration = this.formatTime(this.streamState.duration);
+        this.streamState.canplay = true;
         break;
       case 'playing':
-        this.state.playing = true;
-        this.state.paused = false;
+        this.streamState.playing = true;
+        this.streamState.paused = false;
         break;
       case 'pause':
-        this.state.playing = false;
-        this.state.paused = true;
+        this.streamState.playing = false;
+        this.streamState.paused = true;
         break;
       case 'timeupdate':
-        this.state.currentTime = this.audioObj.currentTime;
-        this.state.readableCurrentTime = this.formatTime(this.state.currentTime);
+        this.streamState.currentTime = this.audioObj.currentTime;
+        this.streamState.readableCurrentTime = this.formatTime(this.streamState.currentTime);
         break;
       case 'ended':
         // console.log('ended');
         break;
       case 'error':
         this.resetState();
-        this.state.error = true;
+        this.streamState.error = true;
         break;
     }
-    this.stateChange.next(this.state);
+    this.streamStateChange.next(this.streamState);
   }
 
   private resetState() {
-    this.state = {
+    this.streamState = {
       playing: false,
       paused: false,
       readableCurrentTime: '',
@@ -135,6 +135,6 @@ export class AudioService {
   }
 
   getState(): Observable<StreamState> {
-    return this.stateChange.asObservable();
+    return this.streamStateChange.asObservable();
   }
 }

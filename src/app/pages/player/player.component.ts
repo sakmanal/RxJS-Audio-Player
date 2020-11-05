@@ -41,6 +41,15 @@ export class PlayerComponent {
     this.currentFile = { index, file };
     this.audioService.stop();
     this.playStream(file.url);
+
+    // this.fileService.setCurrentFile({ index, file })
+    // this.initStream()
+  }
+
+  initStream() {
+    // const src = this.fileService.getCurrentFileSource;
+    // this.audioService.stop();
+    // this.playStream(src);
   }
 
   pause() {
@@ -61,6 +70,8 @@ export class PlayerComponent {
     } else {
       this.audioService.stop();
       this.playStream(this.currentFile.file.url);
+
+      //this.initStream()
     }
   }
 
@@ -73,6 +84,9 @@ export class PlayerComponent {
         const file = this.files[index];
         this.openFile(file, index);
       }
+
+      // this.fileService.setNextFile();
+      // this.initStream();
   }
 
   setRepeat() {
@@ -83,14 +97,21 @@ export class PlayerComponent {
       const index = this.currentFile.index - 1;
       const file = this.files[index];
       this.openFile(file, index);
+
+      // this.fileService.setPreviousFile();
+      // this.initStream();
   }
 
   isFirstPlaying() {
     return this.currentFile.index === 0;
+
+    // this.fileService.isFirstFile();
   }
 
   isLastPlaying() {
     return this.currentFile.index === this.files.length - 1;
+
+    // this.fileService.isLastFile;
   }
 
   onSliderChangeEnd(change) {

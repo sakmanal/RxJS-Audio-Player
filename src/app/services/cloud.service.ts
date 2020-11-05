@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { Track } from '../interfaces/track-data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CloudService {
-  files: any = [
+  private files: Track[] = [
     {
       url: 'https://ia801403.us.archive.org/4/items/getbackcontinued/Get%20Back...Continued/Disc%201/01%20Get%20Back.mp3',
       name: 'Get Back',
@@ -55,7 +56,7 @@ export class CloudService {
     }
   ];
 
-  getFiles() {
+  getFiles(): Observable<Track[]> {
    return of(this.files);
   }
 }

@@ -1,0 +1,37 @@
+<div class="content">
+  <div class="logo">
+    <img src="https://i.pinimg.com/originals/a9/34/90/a934904e06cbbbbc7f9ce7d87e418ebd.jpg">
+    <div class="title">The Beatles</div>
+  </div>
+
+  <ng-container *ngIf="streamState$ | async as streamState; else loading">
+    <ng-container *ngIf="currentFile$ | async as currentFile; else loading">
+      <mat-list color="primary">
+        <h3 mat-subheader>Songs</h3>
+        <mat-list-item *ngFor="let file of files$ | async; index as i"
+                      (click)="openFile(file, i)"
+                      class="list-item"
+                      [ngClass]="{'playing': currentFile.index === i && (streamState?.playing || streamState?.paused)}">
+          <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
+          <h4 mat-line>{{ file.name }}</h4>
+          <h5 mat-line>by {{ file.artist }}</h5>
+          <ng-container *ngIf="currentFile.index === i && !streamState?.error">
+              <span *ngIf="streamState?.playing">
+                <mat-icon color="primary">volume_up</mat-icon> Playing
+              </span>
+              <span *ngIf="streamState?.paused">
+                <mat-icon color="primary">volume_off</mat-icon> Paused
+              </span>
+          </ng-container>
+
+          <h6 *ngIf="currentFile.index === i && streamState?.error">ERROR</h6>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </mat-list>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loading>
+    Loading stuff...
+  </ng-template>
+</div>

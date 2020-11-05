@@ -6,11 +6,17 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { PlayerComponent } from './pages/player/player.component';
+import { ContainerComponent } from './pages/container/container.component';
+import { HeaderComponent } from './pages/header/header.component';
+import { PlaylistComponent } from './pages/playlist/playlist.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PlayerComponent
+    PlayerComponent,
+    ContainerComponent,
+    HeaderComponent,
+    PlaylistComponent
   ],
   imports: [
     BrowserModule,
