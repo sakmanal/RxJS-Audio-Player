@@ -60,13 +60,13 @@ export class AudioService {
     });
   }
 
-  private addEvents(obj, events, handler) {
+  private addEvents(obj: HTMLAudioElement, events: string[], handler: EventListenerOrEventListenerObject) {
     events.forEach(event => {
       obj.addEventListener(event, handler);
     });
   }
 
-  private removeEvents(obj, events, handler) {
+  private removeEvents(obj: HTMLAudioElement, events: string[], handler: EventListenerOrEventListenerObject) {
     events.forEach(event => {
       obj.removeEventListener(event, handler);
     });
