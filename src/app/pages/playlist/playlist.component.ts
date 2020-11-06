@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FileService } from 'src/app/services/file.service';
 import { Track } from '../../interfaces/track-data';
 import { CurrentFile } from '../../interfaces/currentFile';
@@ -11,18 +11,13 @@ import { StreamState } from '../../interfaces/stream-state';
   templateUrl: './playlist.component.html',
   styleUrls: ['./playlist.component.scss']
 })
-export class PlaylistComponent implements OnInit {
+export class PlaylistComponent {
 
-  constructor(
-              private fileService: FileService,
-              private audioService: AudioService
-              ) { }
+  constructor(private fileService: FileService, private audioService: AudioService) { }
 
   files$: Observable<Track[]> = this.fileService.getfiles();
   currentFile$: Observable<CurrentFile> = this.fileService.getCurrentFile();
   streamState$: Observable<StreamState> = this.audioService.getState();
-
-  ngOnInit() { }
 
   openFile(file: Track, index: number) {
     this.fileService.setCurrentFile({ index, file });

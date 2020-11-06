@@ -11,7 +11,16 @@ export class AudioService {
   private stop$ = new Subject();
   private audioObj = new Audio();
   audioEvents = [
-    'ended', 'error', 'play', 'playing', 'pause', 'timeupdate', 'canplay', 'loadedmetadata', 'loadstart', 'ended'
+    'ended',
+    'error',
+    'play',
+    'playing',
+    'pause',
+    'timeupdate',
+    'canplay',
+    'loadedmetadata',
+    'loadstart',
+    'ended'
   ];
   private streamState: StreamState = {
     playing: false,
@@ -22,10 +31,11 @@ export class AudioService {
     currentTime: undefined,
     canplay: false,
     error: false,
+    ended: false
   };
   private streamStateChange: BehaviorSubject<StreamState> = new BehaviorSubject(this.streamState);
 
-  private streamObservable(url) {
+  private streamObservable(url: string) {
     return new Observable(observer => {
       // Play audio
       this.audioObj.src = url;
@@ -62,7 +72,7 @@ export class AudioService {
     });
   }
 
-  playStream(url) {
+  playStream(url: string) {
     return this.streamObservable(url).pipe(takeUntil(this.stop$));
   }
 
@@ -82,11 +92,11 @@ export class AudioService {
     this.streamStateChange.next(this.streamState);
   }
 
-  seekTo(seconds) {
+  seekTo(seconds: number) {
     this.audioObj.currentTime = seconds;
   }
 
-  formatTime(time: number, format: string = 'HH:mm:ss') {
+  formatTime(time: number, format: string = 'HH:mm:ss'): string {
     const momentTime = time * 1000;
     return moment.utc(momentTime).format(format);
   }
@@ -111,7 +121,7 @@ export class AudioService {
         this.streamState.readableCurrentTime = this.formatTime(this.streamState.currentTime);
         break;
       case 'ended':
-        // console.log('ended');
+        this.streamState.ended = true;
         break;
       case 'error':
         this.resetState();
@@ -130,7 +140,8 @@ export class AudioService {
       duration: undefined,
       currentTime: undefined,
       canplay: false,
-      error: false
+      error: false,
+      ended: false
     };
   }
 

@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
-import { CloudService } from '../../services/cloud.service';
 import { StreamState } from '../../interfaces/stream-state';
+import { CurrentFile } from '../../interfaces/currentFile';
+import { FileService } from '../../services/file.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-player',
@@ -9,47 +11,27 @@ import { StreamState } from '../../interfaces/stream-state';
   styleUrls: ['./player.component.scss']
 })
 export class PlayerComponent {
-  files: Array<any> = [];
-  state: StreamState;
-  currentFile: any = {};
+
   repeat = false;
+  currentFile$: Observable<CurrentFile> = this.fileService.getCurrentFile();
+  streamState$: Observable<StreamState> = this.audioService.getState();
 
-  constructor(private audioService: AudioService, cloudService: CloudService) {
-    // get media files
-    cloudService.getFiles().subscribe(files => {
-      this.files = files;
-    });
-
-    // listen to stream state
-    this.audioService.getState()
-    .subscribe(state => {
-      this.state = state;
-      // console.log(this.state);
-    });
-  }
-
-  playStream(url) {
-    this.audioService.playStream(url)
-    .subscribe((events: any) => {
-      if (events && events.type === 'ended') {
-         this.handleNext();
+  constructor(private audioService: AudioService, private fileService: FileService) {
+    this.streamState$.subscribe((stream: StreamState) => {
+      if (stream.ended) {
+          this.handleNext();
       }
     });
   }
 
-  openFile(file, index) {
-    this.currentFile = { index, file };
-    this.audioService.stop();
-    this.playStream(file.url);
-
-    // this.fileService.setCurrentFile({ index, file })
-    // this.initStream()
+  private playStream(url: string) {
+    this.audioService.playStream(url).subscribe();
   }
 
   initStream() {
-    // const src = this.fileService.getCurrentFileSource;
-    // this.audioService.stop();
-    // this.playStream(src);
+    const src = this.fileService.currentFileSource;
+    this.audioService.stop();
+    this.playStream(src);
   }
 
   pause() {
@@ -64,57 +46,37 @@ export class PlayerComponent {
     this.audioService.stop();
   }
 
-  handleNext() {
+  onSliderChangeEnd(change: {value: number}) {
+    this.audioService.seekTo(change.value);
+  }
+
+  private handleNext() {
     if (!this.repeat) {
       this.next();
     } else {
-      this.audioService.stop();
-      this.playStream(this.currentFile.file.url);
-
-      //this.initStream()
+      this.initStream();
     }
   }
 
   next() {
-      if (this.isLastPlaying()) {
-          const file = this.files[0];
-          this.openFile(file, 0);
-      } else {
-        const index = this.currentFile.index + 1;
-        const file = this.files[index];
-        this.openFile(file, index);
-      }
+    this.fileService.setNextFile();
+    this.initStream();
+  }
 
-      // this.fileService.setNextFile();
-      // this.initStream();
+  previous() {
+    this.fileService.setPreviousFile();
+    this.initStream();
+  }
+
+  isFirstPlaying(): boolean {
+    return this.fileService.isFirstFile;
+  }
+
+  isLastPlaying(): boolean {
+    return this.fileService.isLastFile;
   }
 
   setRepeat() {
     this.repeat = !this.repeat;
-  }
-
-  previous() {
-      const index = this.currentFile.index - 1;
-      const file = this.files[index];
-      this.openFile(file, index);
-
-      // this.fileService.setPreviousFile();
-      // this.initStream();
-  }
-
-  isFirstPlaying() {
-    return this.currentFile.index === 0;
-
-    // this.fileService.isFirstFile();
-  }
-
-  isLastPlaying() {
-    return this.currentFile.index === this.files.length - 1;
-
-    // this.fileService.isLastFile;
-  }
-
-  onSliderChangeEnd(change) {
-    this.audioService.seekTo(change.value);
   }
 }

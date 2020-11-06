@@ -7,4 +7,5 @@ export interface StreamState {
     currentTime: number | undefined;
     canplay: boolean;
     error: boolean;
+    ended: boolean;
   }

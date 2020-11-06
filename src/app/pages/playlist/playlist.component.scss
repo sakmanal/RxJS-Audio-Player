@@ -1,7 +1,4 @@
 .content {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
   .logo {
     margin: 2.5rem;
     text-align: center;
@@ -11,6 +8,7 @@
       font-family: 'Noticia Text', serif;
     }
     img {
+      width: 100%;
       max-width: 300px;
     }
   }

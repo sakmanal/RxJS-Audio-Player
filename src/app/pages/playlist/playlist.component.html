@@ -11,20 +11,20 @@
         <mat-list-item *ngFor="let file of files$ | async; index as i"
                       (click)="openFile(file, i)"
                       class="list-item"
-                      [ngClass]="{'playing': currentFile.index === i && (streamState?.playing || streamState?.paused)}">
+                      [ngClass]="{'playing': currentFile.index === i && (streamState.playing || streamState.paused)}">
           <mat-icon color="primary" mat-list-icon>music_note</mat-icon>
           <h4 mat-line>{{ file.name }}</h4>
           <h5 mat-line>by {{ file.artist }}</h5>
-          <ng-container *ngIf="currentFile.index === i && !streamState?.error">
-              <span *ngIf="streamState?.playing">
+          <ng-container *ngIf="currentFile.index === i && !streamState.error">
+              <span *ngIf="streamState.playing">
                 <mat-icon color="primary">volume_up</mat-icon> Playing
               </span>
-              <span *ngIf="streamState?.paused">
+              <span *ngIf="streamState.paused">
                 <mat-icon color="primary">volume_off</mat-icon> Paused
               </span>
           </ng-container>
 
-          <h6 *ngIf="currentFile.index === i && streamState?.error">ERROR</h6>
+          <h6 *ngIf="currentFile.index === i && streamState.error">ERROR</h6>
           <mat-divider></mat-divider>
         </mat-list-item>
       </mat-list>
@@ -32,6 +32,6 @@
   </ng-container>
 
   <ng-template #loading>
-    Loading stuff...
+    Loading Playlist...
   </ng-template>
 </div>
