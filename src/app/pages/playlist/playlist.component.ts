@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FileService } from 'src/app/services/file.service';
 import { Track } from '../../interfaces/track-data';
 import { CurrentFile } from '../../interfaces/currentFile';
@@ -9,7 +9,8 @@ import { StreamState } from '../../interfaces/stream-state';
 @Component({
   selector: 'app-playlist',
   templateUrl: './playlist.component.html',
-  styleUrls: ['./playlist.component.scss']
+  styleUrls: ['./playlist.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlaylistComponent {
 
