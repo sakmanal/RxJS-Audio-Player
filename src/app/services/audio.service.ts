@@ -49,6 +49,7 @@ export class AudioService {
 
       this.addEvents(this.audioObj, this.audioEvents, handler);
       return () => {
+        console.log('stop');
         // Stop Playing
         this.audioObj.pause();
         this.audioObj.currentTime = 0;
@@ -56,6 +57,9 @@ export class AudioService {
         this.removeEvents(this.audioObj, this.audioEvents, handler);
         // reset streamState
         this.resetState();
+        this.streamStateChange.next(this.streamState);
+        // reset Audio Object
+        this.audioObj = new Audio();
       };
     });
   }
@@ -88,8 +92,6 @@ export class AudioService {
 
   stop() {
     this.stop$.next();
-    this.resetState();
-    this.streamStateChange.next(this.streamState);
   }
 
   seekTo(seconds: number) {
