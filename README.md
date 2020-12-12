@@ -1,4 +1,7 @@
 # RxJS-Audio-Player
+
+[![Build Status](https://travis-ci.com/sakmanal/RxJS-Audio-Player.svg?branch=master)](https://travis-ci.com/sakmanal/RxJS-Audio-Player)
+
 ![logo](https://user-images.githubusercontent.com/32598290/98170779-48ad3b80-1ef7-11eb-8192-36c2728e1e0e.jpg)
 
 Audio Player App build with Angular and RxJS.
