@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "rxjs-audio-player",
     "public": "dist/angular-audio",
     "ignore": [
       "firebase.json",
