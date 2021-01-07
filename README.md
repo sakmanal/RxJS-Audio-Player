@@ -1,4 +1,7 @@
 # RxJS-Audio-Player
+
+[![Build Status](https://travis-ci.com/sakmanal/RxJS-Audio-Player.svg?branch=master)](https://travis-ci.com/sakmanal/RxJS-Audio-Player)
+
 ![logo](https://user-images.githubusercontent.com/32598290/98170779-48ad3b80-1ef7-11eb-8192-36c2728e1e0e.jpg)
 
 Audio Player App build with Angular and RxJS.
@@ -11,6 +14,7 @@ Check demo [here](https://rxjs-audio-player.web.app/) !!
 - Autoplay next track.
 - Replay the same track.
 - Sharing state with RxJS and BehaviorSubject.
+- Continuous Deployment with Travis CI and Firebase Hosting.
 
 ## Preview Demo
 ![tempsnip](https://user-images.githubusercontent.com/32598290/98173282-8318d780-1efb-11eb-8a1a-a0801a1fae0d.png)
