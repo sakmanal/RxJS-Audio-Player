@@ -6,7 +6,7 @@ import { Track } from '../interfaces/track-data';
   providedIn: 'root'
 })
 export class CloudService {
-  private files: Track[] = [
+  readonly files: Track[] = [
     {
       url: 'https://ia801403.us.archive.org/4/items/getbackcontinued/Get%20Back...Continued/Disc%201/01%20Get%20Back.mp3',
       name: 'Get Back',

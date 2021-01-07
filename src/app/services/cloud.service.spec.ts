@@ -1,12 +1,11 @@
-import { TestBed } from '@angular/core/testing';
-
 import { CloudService } from './cloud.service';
 
 describe('CloudService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
 
-  it('should be created', () => {
-    const service: CloudService = TestBed.get(CloudService);
-    expect(service).toBeTruthy();
+  it('should return the audio data', () => {
+    const cloudService = new CloudService();
+    cloudService.getFiles().subscribe(
+      files => expect(files.length).toEqual(cloudService.files.length)
+    );
   });
 });
