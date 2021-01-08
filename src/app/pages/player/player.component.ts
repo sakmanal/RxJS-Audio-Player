@@ -19,6 +19,7 @@ export class PlayerComponent {
 
   constructor(private audioService: AudioService, private fileService: FileService) {
     this.streamState$.subscribe((stream: StreamState) => {
+      console.log(stream)
       if (stream.ended) {
           this.handleNext();
       }

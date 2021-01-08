@@ -49,7 +49,6 @@ export class AudioService {
 
       this.addEvents(this.audioObj, this.audioEvents, handler);
       return () => {
-        console.log('stop');
         // Stop Playing
         this.audioObj.pause();
         this.audioObj.currentTime = 0;

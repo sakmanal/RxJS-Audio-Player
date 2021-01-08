@@ -100,7 +100,22 @@ describe('FileService', () => {
   });
 
   it('should set the correct previous file in playlist', () => {
+    const service = new FileService();
+    service.setfiles(mockfiles);
+    let mockCurrentFile: CurrentFile;
+    let index: number;
 
+    index = 1;
+    mockCurrentFile = currentFile(index);
+    service.setCurrentFile(mockCurrentFile);
+    service.setPreviousFile();
+    expect(service.currentFile.index).toBe(index - 1);
+
+    index = 0;
+    mockCurrentFile = currentFile(index);
+    service.setCurrentFile(mockCurrentFile);
+    service.setPreviousFile();
+    expect(service.currentFile.index).toBe(0);
   });
 
 });
