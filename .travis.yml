@@ -7,7 +7,11 @@ branches:
     - master
 
 notifications:
-  email: true
+  email:
+    recipients:
+      - sakmanal@gmail.com
+    on_success: always  # default: change (when the build status changes)
+    on_failure: always
 
 addons:
   apt:
@@ -18,16 +22,16 @@ addons:
 
 cache:
   directories:
-    - ./node_modules
+    - node_modules
 
 install:
   - npm install
 
-script:
+build_and_test:
   - npm run build -- --prod
   - npm run test -- --watch=false --no-progress --browsers=ChromeHeadlessCI
 
-after_success:
+deploy:
   - npm install -g firebase-tools
   - firebase deploy --only hosting --token $FIREBASE_TOKEN
 
