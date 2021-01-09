@@ -14,6 +14,7 @@ Check demo [here](https://rxjs-audio-player.web.app/) !!
 - Autoplay next track.
 - Replay the same track.
 - Sharing state with RxJS and BehaviorSubject.
+- Unit Testing with Jasmine.
 - Continuous Integration/Continuous Delivery with Travis CI and Firebase Hosting.
 
 ## Preview Demo
