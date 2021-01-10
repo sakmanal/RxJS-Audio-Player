@@ -1,9 +1,11 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { AudioService } from '../../services/audio.service';
 import { StreamState } from '../../interfaces/stream-state';
 import { CurrentFile } from '../../interfaces/currentFile';
 import { FileService } from '../../services/file.service';
 import { Observable } from 'rxjs';
+import { MatSliderChange } from '@angular/material/slider';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-player',
@@ -11,20 +13,23 @@ import { Observable } from 'rxjs';
   styleUrls: ['./player.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PlayerComponent {
+export class PlayerComponent implements OnInit{
 
   repeat = false;
   currentFile$: Observable<CurrentFile> = this.fileService.getCurrentFile();
-  streamState$: Observable<StreamState> = this.audioService.getState();
-
-  constructor(private audioService: AudioService, private fileService: FileService) {
-    this.streamState$.subscribe((stream: StreamState) => {
-      console.log(stream)
-      if (stream.ended) {
-          this.handleNext();
+  streamState$: Observable<StreamState> = this.audioService.getState()
+  .pipe(
+    tap((stream: StreamState) => {
+        if (stream.ended) {
+            this.handleNext();
+        }
       }
-    });
-  }
+    )
+  );
+
+  constructor(private audioService: AudioService, private fileService: FileService) {}
+
+  ngOnInit() {}
 
   private playStream(url: string) {
     this.audioService.playStream(url).subscribe();
@@ -48,8 +53,8 @@ export class PlayerComponent {
     this.audioService.stop();
   }
 
-  onSliderChangeEnd(change: {value: number}) {
-    this.audioService.seekTo(change.value);
+  onSliderChangeEnd(event: MatSliderChange) {
+    this.audioService.seekTo(event.value);
   }
 
   private handleNext() {

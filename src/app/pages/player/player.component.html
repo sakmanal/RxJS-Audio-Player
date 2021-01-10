@@ -3,39 +3,40 @@
     <div class="media-footer">
       <mat-toolbar color="primary">
         <mat-toolbar-row>
-           {{ streamState.readableCurrentTime }}
+           <span id="ctime">{{ streamState.readableCurrentTime }}</span>
            <mat-slider class="time-slider"
                        min="0"
-                       [max]="streamState.duration" step="1"
+                       [max]="streamState.duration"
+                       step="1"
                        [value]="streamState.currentTime"
                        (input)="onSliderChangeEnd($event)"
                        [disabled]="streamState.error || currentFile.index === undefined">
             </mat-slider>
-           {{ streamState.readableDuration }}
+            <span id="duration">{{ streamState.readableDuration }}</span>
         </mat-toolbar-row>
 
         <mat-toolbar-row class="media-action-bar">
-          <button  mat-button (click)="setRepeat()">
+          <button mat-button id="repeat" (click)="setRepeat()">
             <mat-icon mat-list-icon class="small-mat-icon" [style.color]="(repeat)? '#FF4081': 'white'">repeat</mat-icon>
           </button>
 
-          <button mat-button [disabled]="isFirstPlaying() || streamState.error || currentFile.index === undefined" (click)="previous()">
+          <button mat-button id="previous" [disabled]="isFirstPlaying() || streamState.error || currentFile.index === undefined" (click)="previous()">
             <mat-icon mat-list-icon>skip_previous</mat-icon>
           </button>
 
-          <button mat-button (click)="play()" [disabled]="streamState.error" *ngIf="!streamState.playing">
+          <button mat-button id="play" (click)="play()" [disabled]="streamState.error" *ngIf="!streamState.playing">
             <mat-icon mat-list-icon>play_circle_filled</mat-icon>
           </button>
 
-          <button mat-button (click)="pause()" *ngIf="streamState.playing">
+          <button mat-button id="pause" (click)="pause()" *ngIf="streamState.playing">
             <mat-icon mat-list-icon>pause</mat-icon>
           </button>
 
-          <button  mat-button [disabled]="isLastPlaying() || streamState.error || currentFile.index === undefined" (click)="next()">
+          <button  mat-button id="next" [disabled]="isLastPlaying() || streamState.error || currentFile.index === undefined" (click)="next()">
             <mat-icon mat-list-icon>skip_next</mat-icon>
           </button>
 
-          <button  mat-button (click)="stop()">
+          <button  mat-button id="stop" (click)="stop()">
             <mat-icon mat-list-icon class="small-mat-icon">stop</mat-icon>
           </button>
         </mat-toolbar-row>
